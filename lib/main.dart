@@ -34,16 +34,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _incrementCounter() {
     setState(() {
-<<<<<<< HEAD
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below
       // so that the display can reflect the updated values. If we changed
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
       _counter--;
-=======
-      _counter++;
->>>>>>> 0ab51af84e303b38ac960c3b884db8febe924f6f
     });
   }
 
