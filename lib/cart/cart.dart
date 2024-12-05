@@ -18,6 +18,15 @@ class _CartState extends State<Cart> {
               fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black),
         ),
         centerTitle: true,
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back,
+          ),
+          color: Colors.black,
+          iconSize: 30,
+          onPressed: () {
+          },
+        ),
       ),
     );
   }
