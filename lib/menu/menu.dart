@@ -1,6 +1,6 @@
+
 import 'package:flutter/material.dart';
 import 'package:moida/Details/details.dart';
-
 
 class HomesScreen extends StatefulWidget {
   const HomesScreen({super.key});
@@ -27,7 +27,7 @@ class _HomesScreenState extends State<HomesScreen> {
       {"name": "Veggie", "price": "90000 so'm"},
       {"name": "Four Cheese", "price": "130000 so'm"},
     ],
-"Burgers": [
+    "Burgers": [
       {"name": "Cheeseburger", "price": "14000 so'm"},
       {"name": "Hamburger", "price": "14000 so'm"},
       {"name": "Chickenburger", "price": "14000 so'm"},
@@ -66,95 +66,96 @@ class _HomesScreenState extends State<HomesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          int crossAxisCount;
-          if (constraints.maxWidth >= 1024) {
-            crossAxisCount = 4;
-          } else if (constraints.maxWidth >= 768) {
-            crossAxisCount = 3;
-          } else {
-            crossAxisCount = 2;
-          }
-
-          return SingleChildScrollView(
-            child: Column(
-              children: [
-             
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Container(
-                    height: 50,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      color: Colors.grey.shade200,
-                    ),
-                    child: const Row(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 12.0),
-                          child: Icon(Icons.search, color: Colors.grey),
+      body: Stack(
+        children: [
+          LayoutBuilder(
+            builder: (context, constraints) {
+              return SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Container(
+                        height: 50,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          color: Colors.grey.shade200,
                         ),
-                        Expanded(
-                          child: TextField(
-                            cursorColor: Colors.grey,
-                            decoration: InputDecoration(
-                              hintText: "Yaxshi korgan ovkatini tanla",
-                              hintStyle: TextStyle(color: Colors.grey),
-                              border: InputBorder.none,
+                        child: const Row(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 12.0),
+                              child: Icon(Icons.search, color: Colors.grey),
                             ),
-                          ),
+                            Expanded(
+                              child: TextField(
+                                cursorColor: Colors.grey,
+                                decoration: InputDecoration(
+                                  hintText: "Yaxshi korgan ovkatini tanla",
+                                  hintStyle: TextStyle(color: Colors.grey),
+                                  border: InputBorder.none,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
-                  ),
-                ),
-                
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                    child: Row(
-                      children: categories.map((category) {
-                        return FoodCategoryButton(
-                          title: category,
-                          isSelected: selectedCategory == category,
-                          onTap: () {
-                            setState(() {
-                              selectedCategory = category;
-                            });
-                          },
-                        );
-                      }).toList(),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                        child: Row(
+                          children: categories.map((category) {
+                            return FoodCategoryButton(
+                              title: category,
+                              isSelected: selectedCategory == category,
+                              onTap: () {
+                                setState(() {
+                                  selectedCategory = category;
+                                });
+                              },
+                            );
+                          }).toList(),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-                
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16.0, vertical: 16.0),
-                  child: GridView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: crossAxisCount,
-                      crossAxisSpacing: 16,
-                      mainAxisSpacing: 16,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16.0, vertical: 16.0),
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: foodItems[selectedCategory]?.length ?? 0,
+                        itemBuilder: (context, index) {
+                          final item = foodItems[selectedCategory]![index];
+
+
+return FoodItemCard(
+                            name: item["name"]!,
+                            price: item["price"]!,
+                          );
+                        },
+                      ),
                     ),
-                    itemCount: foodItems[selectedCategory]?.length ?? 0,
-                    itemBuilder: (context, index) {
-                      final item = foodItems[selectedCategory]![index];
-                      return FoodItemCard(
-                        name: item["name"]!,
-                        price: item["price"]!,
-                      );
-                    },
-                  ),
+                  ],
                 ),
-              ],
+              );
+            },
+          ),
+          const Positioned(
+            top: 16,
+            right: 16,
+            child:  Text(
+              "Моида",
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.red,
+              ),
             ),
-          );
-        },
+          ),
+        ],
       ),
     );
   }
@@ -177,7 +178,7 @@ class FoodCategoryButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onTap,
         style: ElevatedButton.styleFrom(
-          backgroundColor: isSelected ? Colors.orange : Colors.white,
+          backgroundColor: isSelected ? Colors.grey : Colors.white,
           foregroundColor: isSelected ? Colors.white : Colors.black,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
@@ -201,10 +202,11 @@ class FoodItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: const EdgeInsets.only(bottom: 16.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: Colors.white,
-        boxShadow: [ 
+        boxShadow: [
           BoxShadow(
             color: Colors.grey.shade300,
             blurRadius: 10,
@@ -215,13 +217,12 @@ class FoodItemCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-
           GestureDetector(
             onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const Details(),
+                  builder: (context) => const DetailsScreen(),
                 ),
               );
             },
@@ -250,14 +251,11 @@ class FoodItemCard extends StatelessWidget {
                   style: const TextStyle(fontSize: 8, color: Colors.grey),
                 ),
                 const SizedBox(height: 8),
-           
                 Align(
                   alignment: Alignment.centerRight,
                   child: IconButton(
                     icon: const Icon(Icons.add_circle, color: Colors.orange),
-                    onPressed: () {
-                  
-                    },
+                    onPressed: () {},
                   ),
                 ),
               ],
@@ -268,4 +266,3 @@ class FoodItemCard extends StatelessWidget {
     );
   }
 }
-
