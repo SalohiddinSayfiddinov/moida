@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moida/Details/details.dart';
+import 'package:moida/cart/cart.dart';
 
 
 class HomesScreen extends StatefulWidget {
@@ -259,7 +260,7 @@ class FoodItemCard extends StatelessWidget {
                   alignment: Alignment.centerRight,
                   child: IconButton(iconSize: 30,
                     icon: const Icon(Icons.add_circle, color: Colors.red,),
-                    onPressed: () {
+                    onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (_) => CartPage()));
                   
                     },
                   ),
