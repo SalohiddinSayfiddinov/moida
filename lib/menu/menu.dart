@@ -62,9 +62,13 @@ class _HomesScreenState extends State<HomesScreen> {
   };
 
   String selectedCategory = "Pizza";
-
+String searchQuery = '';
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) { 
+       final filteredItems = foodItems[selectedCategory]!
+        .where((item) =>
+            item["name"]!.toLowerCase().contains(searchQuery.toLowerCase()))
+        .toList();
     return Scaffold(
       body: LayoutBuilder(
         builder: (context, constraints) {
@@ -90,18 +94,18 @@ class _HomesScreenState extends State<HomesScreen> {
                       color: Colors.grey.shade200,
                     ),
                     child: const Row(
-                      children: [
+                      children: [ 
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 12.0),
                           child: Icon(Icons.search, color: Colors.grey),
                         ),
-                        Expanded(
+                    Expanded(
                           child: TextField(
                             cursorColor: Colors.grey,
                             decoration: InputDecoration(
                               hintText: "Yaxshi korgan ovkatini tanla",
                               hintStyle: TextStyle(color: Colors.grey),
-                              border: InputBorder.none,
+                              border: InputBorder.none, 
                             ),
                           ),
                         ),
@@ -177,7 +181,7 @@ class FoodCategoryButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onTap,
         style: ElevatedButton.styleFrom(
-          backgroundColor: isSelected ? Colors.orange : Colors.white,
+          backgroundColor: isSelected ? Colors.grey : Colors.white,
           foregroundColor: isSelected ? Colors.white : Colors.black,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
@@ -221,7 +225,7 @@ class FoodItemCard extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const Details(),
+                  builder: (context) => const DetailsScreen(),
                 ),
               );
             },
@@ -249,12 +253,12 @@ class FoodItemCard extends StatelessWidget {
                   price,
                   style: const TextStyle(fontSize: 8, color: Colors.grey),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: 4),
            
                 Align(
                   alignment: Alignment.centerRight,
-                  child: IconButton(
-                    icon: const Icon(Icons.add_circle, color: Colors.orange),
+                  child: IconButton(iconSize: 30,
+                    icon: const Icon(Icons.add_circle, color: Colors.red,),
                     onPressed: () {
                   
                     },

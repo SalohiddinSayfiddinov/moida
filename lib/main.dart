@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:moida/cart/cart.dart';
+import 'package:moida/menu/menu.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,8 +19,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         scaffoldBackgroundColor: Colors.white,
       ),
-      debugShowCheckedModeBanner: false,
-      home: const CartPage(),
+      home: HomesScreen(),
     );
   }
 }
@@ -72,3 +71,4 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+
