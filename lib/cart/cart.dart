@@ -3,7 +3,58 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:moida/cart/model_cubit.dart';
 
 class CartPage extends StatelessWidget {
-  const CartPage({super.key});
+   CartPage({super.key});
+   
+final List<String> categoriess = [
+    "Pizza",
+    "Burgers",
+    "Sushi",
+    "Pasta",
+    "Desserts"
+  ];
+
+  final Map<String, List<Map<String, String>>> foodItemss = {
+    "Pizza": [
+      {"name": "Pepperoni", "price": "140000 so'm"},
+      {"name": "Margarita", "price": "140000 so'm"},
+      {"name": "Chickenpizza", "price": "140000 so'm"},
+      {"name": "Hawaiian", "price": "100000 so'm"},
+      {"name": "Veggie", "price": "90000 so'm"},
+      {"name": "Four Cheese", "price": "130000 so'm"},
+    ],
+"Burgers": [
+      {"name": "Cheeseburger", "price": "14000 so'm"},
+      {"name": "Hamburger", "price": "14000 so'm"},
+      {"name": "Chickenburger", "price": "14000 so'm"},
+      {"name": "Doublecheeseburger", "price": "10000 so'm"},
+      {"name": "Veganburger", "price": "9000 so'm"},
+      {"name": "Blackburger", "price": "13000 so'm"},
+    ],
+    "Sushi": [
+      {"name": "California", "price": "14000 so'm"},
+      {"name": "Roll", "price": "14000 so'm"},
+      {"name": "Temaki", "price": "14000 so'm"},
+      {"name": "Nigiri", "price": "10000 so'm"},
+      {"name": "Uramaki", "price": "9000 so'm"},
+      {"name": "Maki", "price": "13000 so'm"},
+    ],
+    "Pasta": [
+      {"name": "Elbow", "price": "140000 so'm"},
+      {"name": "Bucatini", "price": "140000 so'm"},
+      {"name": "Spaghetti", "price": "140000 so'm"},
+      {"name": "Farfalle", "price": "100000 so'm"},
+      {"name": "Capellini", "price": "90000 so'm"},
+      {"name": "Cavatappi", "price": "130000 so'm"},
+    ],
+    "Desserts": [
+      {"name": "Cake", "price": "140000 so'm"},
+      {"name": "Mochi", "price": "140000 so'm"},
+      {"name": "Ice Cream", "price": "14000 so'm"},
+      {"name": "Baklava", "price": "10000 so'm"},
+      {"name": "Éclair", "price": "9000 so'm"},
+      {"name": "Croissant", "price": "130000 so'm"},
+    ],
+  };
 
   @override
   Widget build(BuildContext context) {
