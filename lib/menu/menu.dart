@@ -85,20 +85,25 @@ class _HomeScreenState extends State<HomeScreen> {
                   borderRadius: BorderRadius.circular(12),
                   color: Colors.grey.shade200,
                 ),
-                child: const Row(
+                child: Row(
                   children: [
-                    Padding(
+                    const Padding(
                       padding: EdgeInsets.symmetric(horizontal: 12.0),
                       child: Icon(Icons.search, color: Colors.grey),
                     ),
                     Expanded(
                       child: TextField(
                         cursorColor: Colors.grey,
-                        decoration: InputDecoration(
-                          hintText: "Yaxshi korgan ovkatini tanla",
+                        decoration: const InputDecoration(
+                          hintText: "Yaxshi korgan ovqatini tanla",
                           hintStyle: TextStyle(color: Colors.grey),
                           border: InputBorder.none,
                         ),
+                        onChanged: (value) {
+                          setState(() {
+                            searchQuery = value;
+                          });
+                        },
                       ),
                     ),
                   ],
@@ -108,7 +113,8 @@ class _HomeScreenState extends State<HomeScreen> {
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12.0, vertical: 5.0),
                 child: Row(
                   children: categories.map((category) {
                     return FoodCategoryButton(
@@ -132,12 +138,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 mainAxisSpacing: 16.0,
                 crossAxisSpacing: 16.0,
                 maxCrossAxisExtent: 240,
-                mainAxisExtent: 225,
-                childAspectRatio: .5,
+                mainAxisExtent: 230,
+                childAspectRatio: 1,
               ),
-              itemCount: foodItems[selectedCategory]?.length ?? 0,
+              itemCount: filteredItems.length,
               itemBuilder: (context, index) {
-                final item = foodItems[selectedCategory]![index];
+                final item = filteredItems[index];
                 return FoodItemCard(
                   name: item["name"]!,
                   price: item["price"]!,
@@ -231,36 +237,39 @@ class FoodItemCard extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.all(12.0).copyWith(bottom: 0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    name,
-                    style: const TextStyle(
-                        fontSize: 12, fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    price,
-                    style: const TextStyle(fontSize: 8, color: Colors.grey),
-                  ),
-                  const SizedBox(height: 4),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: IconButton(
-                      iconSize: 30,
-                      icon: const Icon(
-                        Icons.add_circle,
-                        color: Colors.red,
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (_) => CartPage(),
-                          ),
-                        );
-                      },
+                  SizedBox(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          name,
+                          style: const TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          price,
+                          style:
+                              const TextStyle(fontSize: 14, color: Colors.grey),
+                        ),
+                      ],
                     ),
                   ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => CartPage(),
+                        ),
+                      );
+                    },
+                    child: const Icon(
+                      Icons.add_circle,
+                      color: Colors.red,
+                    ),
+                  )
                 ],
               ),
             ),

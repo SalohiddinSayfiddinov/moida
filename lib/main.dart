@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:moida/Details/details.dart';
 import 'package:moida/cart/cart.dart';
 import 'package:moida/cubit/cubit_plus.dart';
+import 'package:moida/menu/menu.dart';
 
 void main() {
   runApp(const MyApp());
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         scaffoldBackgroundColor: Colors.white,
       ),
-      home: CartPage(),
+      home: HomeScreen(),
     );
   }
 }
