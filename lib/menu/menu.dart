@@ -204,7 +204,7 @@ class FoodItemCard extends StatelessWidget {
           MaterialPageRoute(
             builder: (context) => BlocProvider(
               create: (context) => PlusCubit(),
-              child: const DetailsScreen(),
+              child: DetailsScreen(name: name, price: price),
             ),
           ),
         );
