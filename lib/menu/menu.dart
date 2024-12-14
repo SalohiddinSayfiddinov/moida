@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:moida/Details/details.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:moida/cubit/cubit_plus.dart';
+import 'package:moida/details/details.dart';
+import 'package:moida/cart/cart.dart';
 
-
-class HomesScreen extends StatefulWidget {
-  const HomesScreen({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
   @override
-  State<HomesScreen> createState() => _HomesScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomesScreenState extends State<HomesScreen> {
+class _HomeScreenState extends State<HomeScreen> {
   final List<String> categories = [
     "Pizza",
     "Burgers",
@@ -27,7 +29,7 @@ class _HomesScreenState extends State<HomesScreen> {
       {"name": "Veggie", "price": "90000 so'm"},
       {"name": "Four Cheese", "price": "130000 so'm"},
     ],
-"Burgers": [
+    "Burgers": [
       {"name": "Cheeseburger", "price": "14000 so'm"},
       {"name": "Hamburger", "price": "14000 so'm"},
       {"name": "Chickenburger", "price": "14000 so'm"},
@@ -62,99 +64,88 @@ class _HomesScreenState extends State<HomesScreen> {
   };
 
   String selectedCategory = "Pizza";
+  String searchQuery = '';
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          int crossAxisCount;
-          if (constraints.maxWidth >= 1024) {
-            crossAxisCount = 4;
-          } else if (constraints.maxWidth >= 768) {
-            crossAxisCount = 3;
-          } else {
-            crossAxisCount = 2;
-          }
+    final filteredItems = foodItems[selectedCategory]!
+        .where((item) =>
+            item["name"]!.toLowerCase().contains(searchQuery.toLowerCase()))
+        .toList();
 
-          return SingleChildScrollView(
-            child: Column(
-              children: [
-             
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Container(
-                    height: 50,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      color: Colors.grey.shade200,
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Container(
+                height: 50,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  color: Colors.grey.shade200,
+                ),
+                child: const Row(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 12.0),
+                      child: Icon(Icons.search, color: Colors.grey),
                     ),
-                    child: const Row(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 12.0),
-                          child: Icon(Icons.search, color: Colors.grey),
+                    Expanded(
+                      child: TextField(
+                        cursorColor: Colors.grey,
+                        decoration: InputDecoration(
+                          hintText: "Yaxshi korgan ovkatini tanla",
+                          hintStyle: TextStyle(color: Colors.grey),
+                          border: InputBorder.none,
                         ),
-                        Expanded(
-                          child: TextField(
-                            cursorColor: Colors.grey,
-                            decoration: InputDecoration(
-                              hintText: "Yaxshi korgan ovkatini tanla",
-                              hintStyle: TextStyle(color: Colors.grey),
-                              border: InputBorder.none,
-                            ),
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
+                  ],
                 ),
-                
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                    child: Row(
-                      children: categories.map((category) {
-                        return FoodCategoryButton(
-                          title: category,
-                          isSelected: selectedCategory == category,
-                          onTap: () {
-                            setState(() {
-                              selectedCategory = category;
-                            });
-                          },
-                        );
-                      }).toList(),
-                    ),
-                  ),
-                ),
-                
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16.0, vertical: 16.0),
-                  child: GridView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: crossAxisCount,
-                      crossAxisSpacing: 16,
-                      mainAxisSpacing: 16,
-                    ),
-                    itemCount: foodItems[selectedCategory]?.length ?? 0,
-                    itemBuilder: (context, index) {
-                      final item = foodItems[selectedCategory]![index];
-                      return FoodItemCard(
-                        name: item["name"]!,
-                        price: item["price"]!,
-                      );
-                    },
-                  ),
-                ),
-              ],
+              ),
             ),
-          );
-        },
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                child: Row(
+                  children: categories.map((category) {
+                    return FoodCategoryButton(
+                      title: category,
+                      isSelected: selectedCategory == category,
+                      onTap: () {
+                        setState(() {
+                          selectedCategory = category;
+                        });
+                      },
+                    );
+                  }).toList(),
+                ),
+              ),
+            ),
+            GridView.builder(
+              padding: const EdgeInsets.all(16.0),
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                mainAxisSpacing: 16.0,
+                crossAxisSpacing: 16.0,
+                maxCrossAxisExtent: 240,
+                mainAxisExtent: 225,
+                childAspectRatio: .5,
+              ),
+              itemCount: foodItems[selectedCategory]?.length ?? 0,
+              itemBuilder: (context, index) {
+                final item = foodItems[selectedCategory]![index];
+                return FoodItemCard(
+                  name: item["name"]!,
+                  price: item["price"]!,
+                );
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -177,8 +168,8 @@ class FoodCategoryButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onTap,
         style: ElevatedButton.styleFrom(
-          backgroundColor: isSelected ? Colors.orange : Colors.white,
-          foregroundColor: isSelected ? Colors.white : Colors.black,
+          backgroundColor: isSelected ? Colors.grey : Colors.black,
+          foregroundColor: isSelected ? Colors.black : Colors.grey,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
           ),
@@ -200,32 +191,36 @@ class FoodItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        color: Colors.white,
-        boxShadow: [ 
-          BoxShadow(
-            color: Colors.grey.shade300,
-            blurRadius: 10,
-            spreadRadius: 2,
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => BlocProvider(
+              create: (context) => PlusCubit(),
+              child: const DetailsScreen(),
+            ),
           ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-
-          GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const DetailsScreen(),
-                ),
-              );
-            },
-            child: ClipRRect(
+        );
+      },
+      borderRadius: BorderRadius.circular(20),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.shade300,
+              blurRadius: 10,
+              spreadRadius: 2,
+            ),
+          ],
+        ),
+        margin: const EdgeInsets.all(5.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: Image.network(
                 "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQErkNKMmH0WUulsuEIXxlBzENBKEhcjAkl0g&s",
@@ -234,38 +229,44 @@ class FoodItemCard extends StatelessWidget {
                 width: double.infinity,
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  name,
-                  style: const TextStyle(
-                      fontSize: 12, fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  price,
-                  style: const TextStyle(fontSize: 8, color: Colors.grey),
-                ),
-                const SizedBox(height: 8),
-           
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: IconButton(
-                    icon: const Icon(Icons.add_circle, color: Colors.orange),
-                    onPressed: () {
-                  
-                    },
+            Padding(
+              padding: const EdgeInsets.all(12.0).copyWith(bottom: 0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    name,
+                    style: const TextStyle(
+                        fontSize: 12, fontWeight: FontWeight.bold),
                   ),
-                ),
-              ],
+                  Text(
+                    price,
+                    style: const TextStyle(fontSize: 8, color: Colors.grey),
+                  ),
+                  const SizedBox(height: 4),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: IconButton(
+                      iconSize: 30,
+                      icon: const Icon(
+                        Icons.add_circle,
+                        color: Colors.red,
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => CartPage(),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 }
-
