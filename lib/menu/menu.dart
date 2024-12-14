@@ -186,8 +186,8 @@ class FoodCategoryButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onTap,
         style: ElevatedButton.styleFrom(
-          backgroundColor: isSelected ? Colors.grey : Colors.white,
-          foregroundColor: isSelected ? Colors.white : Colors.black,
+          backgroundColor: isSelected ? Colors.grey : Colors.black,
+          foregroundColor: isSelected ? Colors.black : Colors.grey,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
           ),
