@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:moida/Details/details.dart';
 import 'package:moida/cart/cart.dart';
 
-
 class HomesScreen extends StatefulWidget {
   const HomesScreen({super.key});
 
@@ -28,7 +27,7 @@ class _HomesScreenState extends State<HomesScreen> {
       {"name": "Veggie", "price": "90000 so'm"},
       {"name": "Four Cheese", "price": "130000 so'm"},
     ],
-"Burgers": [
+    "Burgers": [
       {"name": "Cheeseburger", "price": "14000 so'm"},
       {"name": "Hamburger", "price": "14000 so'm"},
       {"name": "Chickenburger", "price": "14000 so'm"},
@@ -63,13 +62,15 @@ class _HomesScreenState extends State<HomesScreen> {
   };
 
   String selectedCategory = "Pizza";
-String searchQuery = '';
+  String searchQuery = '';
+
   @override
-  Widget build(BuildContext context) { 
-       final filteredItems = foodItems[selectedCategory]!
+  Widget build(BuildContext context) {
+    final filteredItems = foodItems[selectedCategory]!
         .where((item) =>
             item["name"]!.toLowerCase().contains(searchQuery.toLowerCase()))
         .toList();
+
     return Scaffold(
       body: LayoutBuilder(
         builder: (context, constraints) {
@@ -85,7 +86,6 @@ String searchQuery = '';
           return SingleChildScrollView(
             child: Column(
               children: [
-             
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Container(
@@ -94,27 +94,31 @@ String searchQuery = '';
                       borderRadius: BorderRadius.circular(12),
                       color: Colors.grey.shade200,
                     ),
-                    child: const Row(
-                      children: [ 
-                        Padding(
+                    child: Row(
+                      children: [
+                        const Padding(
                           padding: EdgeInsets.symmetric(horizontal: 12.0),
                           child: Icon(Icons.search, color: Colors.grey),
                         ),
-                    Expanded(
+                        Expanded(
                           child: TextField(
                             cursorColor: Colors.grey,
-                            decoration: InputDecoration(
-                              hintText: "Yaxshi korgan ovkatini tanla",
+                            decoration: const InputDecoration(
+                              hintText: "Yaxshi korgan ovqatini tanla",
                               hintStyle: TextStyle(color: Colors.grey),
-                              border: InputBorder.none, 
+                              border: InputBorder.none,
                             ),
+                            onChanged: (value) {
+                              setState(() {
+                                searchQuery = value;
+                              });
+                            },
                           ),
                         ),
                       ],
                     ),
                   ),
                 ),
-                
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Padding(
@@ -127,6 +131,7 @@ String searchQuery = '';
                           onTap: () {
                             setState(() {
                               selectedCategory = category;
+                              searchQuery = '';
                             });
                           },
                         );
@@ -134,7 +139,6 @@ String searchQuery = '';
                     ),
                   ),
                 ),
-                
                 Padding(
                   padding: const EdgeInsets.symmetric(
                       horizontal: 16.0, vertical: 16.0),
@@ -146,9 +150,9 @@ String searchQuery = '';
                       crossAxisSpacing: 16,
                       mainAxisSpacing: 16,
                     ),
-                    itemCount: foodItems[selectedCategory]?.length ?? 0,
+                    itemCount: filteredItems.length,
                     itemBuilder: (context, index) {
-                      final item = foodItems[selectedCategory]![index];
+                      final item = filteredItems[index];
                       return FoodItemCard(
                         name: item["name"]!,
                         price: item["price"]!,
@@ -209,7 +213,7 @@ class FoodItemCard extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: Colors.white,
-        boxShadow: [ 
+        boxShadow: [
           BoxShadow(
             color: Colors.grey.shade300,
             blurRadius: 10,
@@ -220,13 +224,12 @@ class FoodItemCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-
           GestureDetector(
             onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const DetailsScreen(),
+                  builder: (context) => CartPage(),
                 ),
               );
             },
@@ -255,13 +258,17 @@ class FoodItemCard extends StatelessWidget {
                   style: const TextStyle(fontSize: 8, color: Colors.grey),
                 ),
                 const SizedBox(height: 4),
-           
                 Align(
                   alignment: Alignment.centerRight,
-                  child: IconButton(iconSize: 30,
-                    icon: const Icon(Icons.add_circle, color: Colors.red,),
-                    onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (_) => CartPage()));
-                  
+                  child: IconButton(
+                    iconSize: 30,
+                    icon: const Icon(
+                      Icons.add_circle,
+                      color: Colors.red,
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (_) => CartPage()));
                     },
                   ),
                 ),
@@ -273,4 +280,3 @@ class FoodItemCard extends StatelessWidget {
     );
   }
 }
-
