@@ -64,9 +64,15 @@ class _HomeScreenState extends State<HomeScreen> {
   };
 
   String selectedCategory = "Pizza";
+  String searchQuery = '';
 
   @override
   Widget build(BuildContext context) {
+    final filteredItems = foodItems[selectedCategory]!
+        .where((item) =>
+            item["name"]!.toLowerCase().contains(searchQuery.toLowerCase()))
+        .toList();
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -162,8 +168,8 @@ class FoodCategoryButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onTap,
         style: ElevatedButton.styleFrom(
-          backgroundColor: isSelected ? Colors.grey : Colors.white,
-          foregroundColor: isSelected ? Colors.white : Colors.black,
+          backgroundColor: isSelected ? Colors.grey : Colors.black,
+          foregroundColor: isSelected ? Colors.black : Colors.grey,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
           ),
