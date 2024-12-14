@@ -221,7 +221,7 @@ class FoodItemCard extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const Details(),
+                  builder: (context) => const DetailsScreen(),
                 ),
               );
             },
