@@ -1,9 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:moida/menu/appbarwidjet.dart';
-import 'package:moida/menu/newest.dart';
 import 'package:moida/menu/polpular.dart';
-import 'package:moida/widgets/Categoryswidjet.dart';
+
+import '../widgets/my_categories.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -13,47 +12,55 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       body: ListView(
         children: [
-          const Appbarwidjet(),
+          Align(
+            alignment: Alignment.centerRight,
+            child: Padding(
+              padding: const EdgeInsets.only(right: 16.0),
+              child: IconButton(
+                onPressed: () {},
+                icon: const Icon(CupertinoIcons.cart),
+              ),
+            ),
+          ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 15),
             child: InkWell(
-              onTap: () {
-            
-              },
               child: Container(
                 width: double.infinity,
-                height: 50,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  color: Colors.grey[200], 
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(.5),
+                      spreadRadius: 2,
+                      blurRadius: 10,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                  child: Row(
-                    children: [
-                      const Icon(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: TextFormField(
+                    onTapOutside: (event) => FocusScope.of(context).unfocus(),
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(
                         CupertinoIcons.search,
                         color: Colors.red,
                       ),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 15),
-                          child: TextFormField(
-                            decoration: const InputDecoration(
-                              hintText: "What eat you like",
-                              border: InputBorder.none,
-                            ),
-                          ),
-                        ),
+                      hintText: "What eat you like",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16.0),
+                        borderSide: BorderSide.none,
                       ),
-                    ],
+                    ),
                   ),
                 ),
               ),
             ),
           ),
           const Padding(
-            padding: EdgeInsets.only(top: 20, left: 10),
+            padding: EdgeInsets.only(top: 20, left: 16),
             child: Text(
               'Categories',
               style: TextStyle(
@@ -62,9 +69,12 @@ class HomePage extends StatelessWidget {
               ),
             ),
           ),
-          const Categoryswidjet(),
+          SizedBox(
+            height: 62,
+            child: Categories(),
+          ),
           const Padding(
-            padding: EdgeInsets.only(top: 20, left: 10),
+            padding: EdgeInsets.only(top: 20, left: 16),
             child: Text(
               'Popular',
               style: TextStyle(
@@ -74,16 +84,6 @@ class HomePage extends StatelessWidget {
             ),
           ),
           const Polpular(),
-                    const Padding(
-            padding: EdgeInsets.only(top: 20, left: 10),
-            child: Text(
-              'Newest',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-              ),
-            ),
-          ),Newest(),
         ],
       ),
     );
