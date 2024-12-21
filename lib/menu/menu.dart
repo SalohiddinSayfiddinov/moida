@@ -1,271 +1,90 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:moida/cubit/cubit_plus.dart';
-import 'package:moida/details/details.dart';
-import 'package:moida/cart/cart.dart';
+import 'package:moida/menu/polpular.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+import '../widgets/my_categories.dart';
 
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  final List<String> categories = [
-    "Pizza",
-    "Burgers",
-    "Sushi",
-    "Pasta",
-    "Desserts"
-  ];
-
-  final Map<String, List<Map<String, String>>> foodItems = {
-    "Pizza": [
-      {"name": "Pepperoni", "price": "140000 so'm"},
-      {"name": "Margarita", "price": "140000 so'm"},
-      {"name": "Chickenpizza", "price": "140000 so'm"},
-      {"name": "Hawaiian", "price": "100000 so'm"},
-      {"name": "Veggie", "price": "90000 so'm"},
-      {"name": "Four Cheese", "price": "130000 so'm"},
-    ],
-    "Burgers": [
-      {"name": "Cheeseburger", "price": "14000 so'm"},
-      {"name": "Hamburger", "price": "14000 so'm"},
-      {"name": "Chickenburger", "price": "14000 so'm"},
-      {"name": "Doublecheeseburger", "price": "10000 so'm"},
-      {"name": "Veganburger", "price": "9000 so'm"},
-      {"name": "Blackburger", "price": "13000 so'm"},
-    ],
-    "Sushi": [
-      {"name": "California", "price": "14000 so'm"},
-      {"name": "Roll", "price": "14000 so'm"},
-      {"name": "Temaki", "price": "14000 so'm"},
-      {"name": "Nigiri", "price": "10000 so'm"},
-      {"name": "Uramaki", "price": "9000 so'm"},
-      {"name": "Maki", "price": "13000 so'm"},
-    ],
-    "Pasta": [
-      {"name": "Elbow", "price": "140000 so'm"},
-      {"name": "Bucatini", "price": "140000 so'm"},
-      {"name": "Spaghetti", "price": "140000 so'm"},
-      {"name": "Farfalle", "price": "100000 so'm"},
-      {"name": "Capellini", "price": "90000 so'm"},
-      {"name": "Cavatappi", "price": "130000 so'm"},
-    ],
-    "Desserts": [
-      {"name": "Cake", "price": "140000 so'm"},
-      {"name": "Mochi", "price": "140000 so'm"},
-      {"name": "Ice Cream", "price": "14000 so'm"},
-      {"name": "Baklava", "price": "10000 so'm"},
-      {"name": "Éclair", "price": "9000 so'm"},
-      {"name": "Croissant", "price": "130000 so'm"},
-    ],
-  };
-
-  String selectedCategory = "Pizza";
-  String searchQuery = '';
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final filteredItems = foodItems[selectedCategory]!
-        .where((item) =>
-            item["name"]!.toLowerCase().contains(searchQuery.toLowerCase()))
-        .toList();
-
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(16.0),
+      body: ListView(
+        children: [
+          Align(
+            alignment: Alignment.centerRight,
+            child: Padding(
+              padding: const EdgeInsets.only(right: 16.0),
+              child: IconButton(
+                onPressed: () {},
+                icon: const Icon(CupertinoIcons.cart),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: InkWell(
               child: Container(
-                height: 50,
+                width: double.infinity,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  color: Colors.grey.shade200,
-                ),
-                child: const Row(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 12.0),
-                      child: Icon(Icons.search, color: Colors.grey),
-                    ),
-                    Expanded(
-                      child: TextField(
-                        cursorColor: Colors.grey,
-                        decoration: InputDecoration(
-                          hintText: "Yaxshi korgan ovkatini tanla",
-                          hintStyle: TextStyle(color: Colors.grey),
-                          border: InputBorder.none,
-                        ),
-                      ),
+                  borderRadius: BorderRadius.circular(20),
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(.5),
+                      spreadRadius: 2,
+                      blurRadius: 10,
+                      offset: const Offset(0, 3),
                     ),
                   ],
                 ),
-              ),
-            ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                child: Row(
-                  children: categories.map((category) {
-                    return FoodCategoryButton(
-                      title: category,
-                      isSelected: selectedCategory == category,
-                      onTap: () {
-                        setState(() {
-                          selectedCategory = category;
-                        });
-                      },
-                    );
-                  }).toList(),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: TextFormField(
+                    onTapOutside: (event) => FocusScope.of(context).unfocus(),
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(
+                        CupertinoIcons.search,
+                        color: Colors.red,
+                      ),
+                      hintText: "What eat you like",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16.0),
+                        borderSide: BorderSide.none,
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),
-            GridView.builder(
-              padding: const EdgeInsets.all(16.0),
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                mainAxisSpacing: 16.0,
-                crossAxisSpacing: 16.0,
-                maxCrossAxisExtent: 240,
-                mainAxisExtent: 225,
-                childAspectRatio: .5,
-              ),
-              itemCount: foodItems[selectedCategory]?.length ?? 0,
-              itemBuilder: (context, index) {
-                final item = foodItems[selectedCategory]![index];
-                return FoodItemCard(
-                  name: item["name"]!,
-                  price: item["price"]!,
-                );
-              },
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class FoodCategoryButton extends StatelessWidget {
-  const FoodCategoryButton(
-      {super.key,
-      required this.title,
-      required this.isSelected,
-      required this.onTap});
-  final String title;
-  final bool isSelected;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: ElevatedButton(
-        onPressed: onTap,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: isSelected ? Colors.grey : Colors.black,
-          foregroundColor: isSelected ? Colors.black : Colors.grey,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
           ),
-          elevation: isSelected ? 5 : 2,
-        ),
-        child: Text(
-          title,
-          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-        ),
-      ),
-    );
-  }
-}
-
-class FoodItemCard extends StatelessWidget {
-  const FoodItemCard({super.key, required this.name, required this.price});
-  final String name;
-  final String price;
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => BlocProvider(
-              create: (context) => PlusCubit(),
-              child: const DetailsScreen(),
+          const Padding(
+            padding: EdgeInsets.only(top: 20, left: 16),
+            child: Text(
+              'Categories',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+              ),
             ),
           ),
-        );
-      },
-      borderRadius: BorderRadius.circular(20),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.shade300,
-              blurRadius: 10,
-              spreadRadius: 2,
-            ),
-          ],
-        ),
-        margin: const EdgeInsets.all(5.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: Image.network(
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQErkNKMmH0WUulsuEIXxlBzENBKEhcjAkl0g&s",
-                fit: BoxFit.cover,
-                height: 125,
-                width: double.infinity,
+          SizedBox(
+            height: 62,
+            child: Categories(),
+          ),
+          const Padding(
+            padding: EdgeInsets.only(top: 20, left: 16),
+            child: Text(
+              'Popular',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(12.0).copyWith(bottom: 0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    name,
-                    style: const TextStyle(
-                        fontSize: 12, fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    price,
-                    style: const TextStyle(fontSize: 8, color: Colors.grey),
-                  ),
-                  const SizedBox(height: 4),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: IconButton(
-                      iconSize: 30,
-                      icon: const Icon(
-                        Icons.add_circle,
-                        color: Colors.red,
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (_) => CartPage(),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+          ),
+          const Polpular(),
+        ],
       ),
     );
   }

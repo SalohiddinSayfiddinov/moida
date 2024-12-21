@@ -3,14 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:moida/cubit/cubit_plus.dart';
 
-class DetailsScreen extends StatefulWidget {
-  const DetailsScreen({super.key});
+class DetailsScreen extends StatelessWidget {
+  final String name;
+  final String price;
+  const DetailsScreen({super.key, required this.name, required this.price});
 
-  @override
-  State<DetailsScreen> createState() => _DetailsScreenState();
-}
-
-class _DetailsScreenState extends State<DetailsScreen> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -20,14 +17,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: const Text(
-          "Details",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 24,
-            color: Colors.white,
-          ),
-        ),
         centerTitle: true,
       ),
       body: Padding(
@@ -55,7 +44,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         fit: BoxFit.cover,
                       ),
                     ),
-                    const Description(),
+                    Description(name: name, price: price),
                   ],
                 ),
               )
@@ -82,7 +71,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     ),
                   ),
                   const SizedBox(width: 50),
-                  const Description(),
+                  Description(name: name, price: price),
                 ],
               ),
       ),
@@ -91,9 +80,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
 }
 
 class Description extends StatelessWidget {
-  const Description({
-    super.key,
-  });
+  final String name;
+  final String price;
+  const Description({super.key, required this.name, required this.price});
 
   @override
   Widget build(BuildContext context) {
@@ -104,9 +93,9 @@ class Description extends StatelessWidget {
         children: [
           if (MediaQuery.of(context).size.width < 950)
             const SizedBox(height: 30),
-          const Text(
-            "Gourmet Burger",
-            style: TextStyle(
+          Text(
+            name,
+            style: const TextStyle(
               fontSize: 24,
               color: Colors.white,
               fontWeight: FontWeight.bold,
@@ -123,9 +112,9 @@ class Description extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 30),
-          const Text(
-            "107 000 so`m",
-            style: TextStyle(
+          Text(
+            price,
+            style: const TextStyle(
               fontSize: 24,
               color: Colors.white,
               fontWeight: FontWeight.w600,
