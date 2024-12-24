@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:moida/Details/details.dart';
+import 'package:moida/cubit/cubit_plus.dart';
 
 class Polpular extends StatelessWidget {
   const Polpular({super.key});
@@ -12,7 +14,7 @@ class Polpular extends StatelessWidget {
       shrinkWrap: true,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        mainAxisExtent: 220,
+        // mainAxisExtent: 220,
       ),
       itemCount: 10,
       itemBuilder: (context, index) {
@@ -20,10 +22,8 @@ class Polpular extends StatelessWidget {
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(
-                builder: (context) =>
-                    DetailsScreen(name: "name", price: '100000'),
-              ),
+             MaterialPageRoute(builder: (context) =>BlocProvider( create: (BuildContext context)=>PlusCubit(),
+      child: DetailsScreen()),),
             );
           },
           child: Container(
@@ -45,7 +45,7 @@ class Polpular extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Image.network(
-                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQErkNKMmH0WUulsuEIXxlBzENBKEhcjAkl0g&s'),
+                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQErkNKMmH0WUulsuEIXxlBzENBKEhcjAkl0g&s',height: 120,fit: BoxFit.cover,width: double.infinity,),
                 const Text(
                   'Hot burger',
                   style: TextStyle(
