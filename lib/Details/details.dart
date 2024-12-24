@@ -1,202 +1,169 @@
+
+import 'package:clippy_flutter/arc.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:moida/cubit/cubit_plus.dart';
 
-class DetailsScreen extends StatelessWidget {
-  final String name;
-  final String price;
-  const DetailsScreen({super.key, required this.name, required this.price});
+
+class DetailsScreen extends StatefulWidget {
+  const DetailsScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
+  State<DetailsScreen> createState() => _DetailsScreenState();
+}
 
+class _DetailsScreenState extends State<DetailsScreen> {
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF212121),
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        centerTitle: true,
-      ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: width < 950
-            ? Center(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Colors.black45,
-                            blurRadius: 15,
-                            offset: Offset(5, 5),
-                          ),
-                        ],
-                      ),
-                      height: 250,
-                      clipBehavior: Clip.hardEdge,
-                      child: Image.network(
-                        "https://static.insales-cdn.com/images/products/1/8159/524238815/LIS_4318.jpg",
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    Description(name: name, price: price),
-                  ],
-                ),
-              )
-            : Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Colors.black45,
-                          blurRadius: 15,
-                          offset: Offset(5, 5),
+        padding: const EdgeInsets.only(top: 5),
+        child: ListView(
+          children: [
+            Padding(
+              padding: EdgeInsets.all(16),
+              child: Image.network(
+                "https://th.bing.com/th/id/OIP.RWaaZCnAJwE8O0FxwD7y0AHaEo?rs=1&pid=ImgDetMain",
+                height: 300,
+              ),
+            ),
+            Arc(
+              edge: Edge.TOP,
+              arcType: ArcType.CONVEY,
+              height: 30,
+              child: Container(
+                width: double.infinity,
+                color: Colors.white,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          top: 60,
+                          bottom: 10,
                         ),
-                      ],
-                    ),
-                    height: 250,
-                    clipBehavior: Clip.hardEdge,
-                    child: Image.network(
-                      "https://static.insales-cdn.com/images/products/1/8159/524238815/LIS_4318.jpg",
-                      fit: BoxFit.cover,
-                    ),
+                        child: Row(
+                          children: [
+                            RatingBar.builder(
+                              initialRating: 4,
+                              minRating: 1,
+                              direction: Axis.horizontal,
+                              itemCount: 5,
+                              itemSize: 18,
+                              itemPadding:
+                                  const EdgeInsets.symmetric(horizontal: 4),
+                              itemBuilder: (context, _) => const Icon(
+                                Icons.star,
+                                color: Colors.red,
+                              ),
+                              onRatingUpdate: (index) {},
+                            ),
+                            Spacer(),
+                            Text(
+                              "\$10",
+                              style: TextStyle(
+                                  fontSize: 22, fontWeight: FontWeight.bold),
+                            )
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                          top: 10,
+                          bottom: 20,
+                        ),
+                        child: Row(
+                          //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Hot Pizza",
+                              style: TextStyle(
+                                  fontSize: 28, fontWeight: FontWeight.bold),
+                            ),
+                            Spacer(),
+                            Container(
+                              width: 90,
+                              padding: EdgeInsets.all(5),
+                              decoration: BoxDecoration(
+                                color: Colors.red,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  InkWell(
+                                    onTap: () =>
+                                        context.read<PlusCubit>().minusOne(),
+                                    child: Icon(
+                                      CupertinoIcons.minus,
+                                      color: Colors.white,
+                                      size: 20,
+                                    ),
+                                  ),
+                                  BlocBuilder<PlusCubit, int>(builder:
+                                      (BuildContext context, int state) {
+                                    return Text(
+                                      state.toString(),
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold),
+                                    );
+                                  }),
+                                  InkWell(
+                                    onTap: () =>
+                                        context.read<PlusCubit>().plusOne(),
+                                    child: Icon(
+                                      CupertinoIcons.plus,
+                                      color: Colors.white,
+                                      size: 20,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                        child: Text(
+                          "Taste Our Hot Pizza at low price,this is famous pizza  and you will love it.it will cost you at low price ,we hope you will enjoy and order many tames.",
+                          style: TextStyle(fontSize: 16),
+                          textAlign: TextAlign.justify,
+                        ),
+                      ),
+                    ],
                   ),
-                  const SizedBox(width: 50),
-                  Description(name: name, price: price),
-                ],
+                ),
               ),
+            )
+          ],
+        ),
       ),
-    );
-  }
-}
-
-class Description extends StatelessWidget {
-  final String name;
-  final String price;
-  const Description({super.key, required this.name, required this.price});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      constraints: const BoxConstraints(maxWidth: 500),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (MediaQuery.of(context).size.width < 950)
-            const SizedBox(height: 30),
-          Text(
-            name,
-            style: const TextStyle(
-              fontSize: 24,
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
+      bottomNavigationBar: Padding(
+        padding: EdgeInsets.only(bottom: 10, right: 20, left: 20),
+        child: Row(
+          children: [
+            Text(
+              "Total:",
+              style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
             ),
-          ),
-          const SizedBox(height: 10),
-          const Text(
-            "This juicy, gourmet burger is crafted from premium beef, topped with fresh veggies, melted cheese, and our special sauce, all sandwiched in a freshly baked brioche bun. It's the ultimate burger experience for anyone craving something rich and flavorful.",
-            style: TextStyle(
-                color: Colors.white70,
-                fontSize: 16,
-                fontStyle: FontStyle.italic,
-                height: 1.6),
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 30),
-          Text(
-            price,
-            style: const TextStyle(
-              fontSize: 24,
-              color: Colors.white,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          const SizedBox(height: 30),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const CountChanger(),
-              const SizedBox(width: 20),
-              Container(
-                decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    colors: [Colors.orangeAccent, Colors.red],
-                  ),
-                  borderRadius: BorderRadius.circular(16.0),
-                ),
-                padding: const EdgeInsets.symmetric(
-                  vertical: 19,
-                  horizontal: 35,
-                ),
-                child: const Text(
-                  "Add to cart",
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class CountChanger extends StatelessWidget {
-  const CountChanger({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
-        color: Colors.white,
-        boxShadow: const [
-          BoxShadow(color: Colors.black12, blurRadius: 10, offset: Offset(2, 2))
-        ],
-      ),
-      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          IconButton(
-            onPressed: context.read<PlusCubit>().minusOne,
-            icon: const Icon(Icons.remove),
-          ),
-          BlocBuilder<PlusCubit, int>(
-            builder: (BuildContext context, int state) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            Spacer(),
+            ElevatedButton(
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Colors.red)),
+                onPressed: () {},
                 child: Text(
-                  state.toString(),
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              );
-            },
-          ),
-          IconButton(
-            onPressed: context.read<PlusCubit>().plusOne,
-            icon: const Icon(Icons.add),
-          ),
-        ],
+                  "Order Now",
+                  style: TextStyle(color: Colors.white),
+                ))
+          ],
+        ),
       ),
     );
   }
