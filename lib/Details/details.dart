@@ -47,50 +47,8 @@ class DetailsScreen extends StatelessWidget {
                     Description(name: name, price: price),
                   ],
                 ),
-
               )
             : Row(
-
-                width: double.infinity,
-                height: 250,
-                clipBehavior: Clip.hardEdge,
-                child: Image.network(
-                  "https://static.insales-cdn.com/images/products/1/8159/524238815/LIS_4318.jpg",
-                  fit: BoxFit.cover,
-                ),
-              ),
-              const SizedBox(height: 20),
-            const  Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Gourmet Burger",
-                    style: TextStyle(
-                        fontSize: 32,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    "\$10.5",
-                    style: TextStyle(
-                        fontSize: 32,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              Text(
-                "This juicy, gourmet burger is crafted from premium beef, topped with fresh veggies, melted cheese, and our special sauce, all sandwiched in a freshly baked brioche bun. It's the ultimate burger experience for anyone craving something rich and flavorful.",
-                style: TextStyle(
-                    color: Colors.white70,
-                    fontSize: 16,
-                    fontStyle: FontStyle.italic,
-                    height: 1.6),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 30),
-              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
