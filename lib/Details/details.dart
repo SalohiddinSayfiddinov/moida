@@ -48,7 +48,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 ),
               ),
               const SizedBox(height: 20),
-              Row(
+            const  Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
