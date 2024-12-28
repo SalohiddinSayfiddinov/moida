@@ -1,4 +1,3 @@
-
 import 'package:clippy_flutter/arc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:moida/cubit/cubit_plus.dart';
-
 
 class DetailsScreen extends StatefulWidget {
   const DetailsScreen({super.key});
@@ -24,7 +22,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
         child: ListView(
           children: [
             Padding(
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               child: Image.network(
                 "https://th.bing.com/th/id/OIP.RWaaZCnAJwE8O0FxwD7y0AHaEo?rs=1&pid=ImgDetMain",
                 height: 300,
@@ -62,8 +60,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                               ),
                               onRatingUpdate: (index) {},
                             ),
-                            Spacer(),
-                            Text(
+                            const Spacer(),
+                            const Text(
                               "\$10",
                               style: TextStyle(
                                   fontSize: 22, fontWeight: FontWeight.bold),
@@ -72,22 +70,22 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(
+                        padding: const EdgeInsets.only(
                           top: 10,
                           bottom: 20,
                         ),
                         child: Row(
                           //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
+                            const Text(
                               "Hot Pizza",
                               style: TextStyle(
                                   fontSize: 28, fontWeight: FontWeight.bold),
                             ),
-                            Spacer(),
+                            const Spacer(),
                             Container(
                               width: 90,
-                              padding: EdgeInsets.all(5),
+                              padding: const EdgeInsets.all(5),
                               decoration: BoxDecoration(
                                 color: Colors.red,
                                 borderRadius: BorderRadius.circular(10),
@@ -99,7 +97,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                   InkWell(
                                     onTap: () =>
                                         context.read<PlusCubit>().minusOne(),
-                                    child: Icon(
+                                    child: const Icon(
                                       CupertinoIcons.minus,
                                       color: Colors.white,
                                       size: 20,
@@ -109,7 +107,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                       (BuildContext context, int state) {
                                     return Text(
                                       state.toString(),
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold),
                                     );
@@ -117,7 +115,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                   InkWell(
                                     onTap: () =>
                                         context.read<PlusCubit>().plusOne(),
-                                    child: Icon(
+                                    child: const Icon(
                                       CupertinoIcons.plus,
                                       color: Colors.white,
                                       size: 20,
@@ -146,22 +144,24 @@ class _DetailsScreenState extends State<DetailsScreen> {
         ),
       ),
       bottomNavigationBar: Padding(
-        padding: EdgeInsets.only(bottom: 10, right: 20, left: 20),
+        padding: const EdgeInsets.only(bottom: 10, right: 20, left: 20),
         child: Row(
           children: [
-            Text(
+            const Text(
               "Total:",
               style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
             ),
-            Spacer(),
+            const Spacer(),
             ElevatedButton(
-                style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Colors.red)),
-                onPressed: () {},
-                child: Text(
-                  "Order Now",
-                  style: TextStyle(color: Colors.white),
-                ))
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red,
+              ),
+              onPressed: () {},
+              child: const Text(
+                "Order Now",
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
           ],
         ),
       ),
