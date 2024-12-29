@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:moida/menu/polpular.dart';
@@ -48,7 +49,7 @@ class HomePage extends StatelessWidget {
                         CupertinoIcons.search,
                         color: Colors.red,
                       ),
-                      hintText: "What eat you like",
+                      hintText: "WhatDoYouWant".tr(),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(16.0),
                         borderSide: BorderSide.none,
